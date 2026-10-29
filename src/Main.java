@@ -1,6 +1,7 @@
 import graph.Graph;
 import model.RoadStatus;
-
+import graph.BFS;
+import graph.RouteStrategy;
 public class Main {
     public static void main(String[] args) {
         Graph city = new Graph();
@@ -20,5 +21,11 @@ public class Main {
         city.addRoad("School", "SafeZone", RoadStatus.BLOCKED, 3);
 
         city.printMap();
+        for (RouteStrategy strategy : RouteStrategy.values()) {
+            System.out.println("== " + strategy);
+            System.out.println("Hospital -> SafeZone: " + BFS.findRoute(city, "Hospital", "SafeZone", strategy));
+            System.out.println("Hospital -> School: " + BFS.findRoute(city, "Hospital", "School", strategy));
+            System.out.println("SafeZone -> Hospital: " + BFS.findRoute(city, "SafeZone", "Hospital", strategy));
+        }
     }
 }
