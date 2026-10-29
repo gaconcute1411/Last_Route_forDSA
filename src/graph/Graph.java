@@ -34,7 +34,7 @@ public class Graph {
             throw new IllegalArgumentException("Unknown node: " + from + " or " + to);
         }
         adjacencyList.get(from).add(new Edge(b, status, distance));
-        adjacencyList.get(from).add(new Edge(a, status, distance));
+        adjacencyList.get(to).add(new Edge(a, status, distance));
     }
 
     public List<Edge> getNeighbors(String name) {
