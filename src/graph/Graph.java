@@ -26,7 +26,7 @@ public class Graph {
         return nodes.get(name);
     }
 
-    // roads are two-way, so we add an edge in both directions
+    // Đường hai chiều -> thêm một cạnh theo cả hai hướng
     public void addRoad(String from, String to, RoadStatus status, int distance) {
         Node a = nodes.get(from);
         Node b = nodes.get(to);
@@ -34,7 +34,7 @@ public class Graph {
             throw new IllegalArgumentException("Unknown node: " + from + " or " + to);
         }
         adjacencyList.get(from).add(new Edge(b, status, distance));
-        adjacencyList.get(to).add(new Edge(a, status, distance));
+        adjacencyList.get(to).add(new Edge(a, status, distance)); // Đường hai chiều: cạnh ngược phải thêm vào node đích (to), không phải node xuất phát (from)
     }
 
     public List<Edge> getNeighbors(String name) {
