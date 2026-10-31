@@ -1,32 +1,37 @@
-import graph.Graph;
-import model.RoadStatus;
 import graph.BFS;
+import graph.Graph;
 import graph.RouteStrategy;
+import graph.SampleMaps;
+
 public class Main {
     public static void main(String[] args) {
-        Graph city = new Graph();
+        Graph city = SampleMaps.createCity();
 
-        city.addNode("Hospital", 100, 80);
-        city.addNode("Factory");
-        city.addNode("Store");
-        city.addNode("Highway");
-        city.addNode("School");
-        city.addNode("SafeZone");
+        // Kiểm tra bản đồ có đủ quy mô không
+        int roads = 0;
+        int survivors = 0;
+        for (String name : city.getNodeNames()) {
+            roads += city.getNeighbors(name).size();
+            survivors += city.getNode(name).getSurvivorCount();
+        }
+        System.out.println("Locations: " + city.getNodeNames().size());
+        System.out.println("Roads: " + roads / 2);     // mỗi đường được lưu 2 lần
+        System.out.println("Survivors: " + survivors);
+        System.out.println();
 
-        city.addRoad("Hospital", "Factory", RoadStatus.SAFE, 4);
-        city.addRoad("Hospital", "Store", RoadStatus.DANGEROUS, 3);
-        city.addRoad("Factory", "Highway", RoadStatus.SAFE, 5);
-        city.addRoad("Highway", "School", RoadStatus.INFESTED, 6);
-        city.addRoad("Store", "SafeZone", RoadStatus.SAFE, 2);
-        city.addRoad("School", "SafeZone", RoadStatus.BLOCKED, 3);
+        String[][] queries = {
+            {"Hospital", "SafeZone"},
+            {"Hospital", "School"},
+            {"Hospital", "Bunker"},
+            {"Harbor", "Bunker"}
+        };
 
-        city.printMap();
-        System.out.println("Hospital at (" + city.getNode("Hospital").getX() + ", " + city.getNode("Hospital").getY() + ")");
-        for (RouteStrategy strategy : RouteStrategy.values()) {
-            System.out.println("== " + strategy);
-            System.out.println("Hospital -> SafeZone: " + BFS.findRoute(city, "Hospital", "SafeZone", strategy));
-            System.out.println("Hospital -> School: " + BFS.findRoute(city, "Hospital", "School", strategy));
-            System.out.println("SafeZone -> Hospital: " + BFS.findRoute(city, "SafeZone", "Hospital", strategy));
+        for (String[] q : queries) {
+            System.out.println(q[0] + " -> " + q[1]);
+            for (RouteStrategy strategy : RouteStrategy.values()) {
+                System.out.println("   " + strategy + ": "
+                        + BFS.findRoute(city, q[0], q[1], strategy));
+            }
         }
     }
 }
