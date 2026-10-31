@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Graph {
     // name -> Node
@@ -27,8 +28,13 @@ public class Graph {
         node.setPosition(x, y);
         return node;
     }
+
     public Node getNode(String name) {
         return nodes.get(name);
+    }
+
+    public Set<String> getNodeNames() {
+        return nodes.keySet();
     }
 
     // Đường hai chiều -> thêm một cạnh theo cả hai hướng
@@ -39,7 +45,8 @@ public class Graph {
             throw new IllegalArgumentException("Unknown node: " + from + " or " + to);
         }
         adjacencyList.get(from).add(new Edge(b, status, distance));
-        adjacencyList.get(to).add(new Edge(a, status, distance)); // Đường hai chiều: cạnh ngược phải thêm vào node đích (to), không phải node xuất phát (from)
+        // Cạnh ngược thuộc về node đích (to), vì đường đi được theo cả hai hướng
+        adjacencyList.get(to).add(new Edge(a, status, distance));
     }
 
     public List<Edge> getNeighbors(String name) {
