@@ -22,6 +22,11 @@ public class Graph {
         return node;
     }
 
+    public Node addNode(String name, int x, int y) {
+        Node node = addNode(name);
+        node.setPosition(x, y);
+        return node;
+    }
     public Node getNode(String name) {
         return nodes.get(name);
     }
