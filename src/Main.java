@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Graph city = new Graph();
 
-        city.addNode("Hospital");
+        city.addNode("Hospital", 100, 80);
         city.addNode("Factory");
         city.addNode("Store");
         city.addNode("Highway");
@@ -21,6 +21,7 @@ public class Main {
         city.addRoad("School", "SafeZone", RoadStatus.BLOCKED, 3);
 
         city.printMap();
+        System.out.println("Hospital at (" + city.getNode("Hospital").getX() + ", " + city.getNode("Hospital").getY() + ")");
         for (RouteStrategy strategy : RouteStrategy.values()) {
             System.out.println("== " + strategy);
             System.out.println("Hospital -> SafeZone: " + BFS.findRoute(city, "Hospital", "SafeZone", strategy));
